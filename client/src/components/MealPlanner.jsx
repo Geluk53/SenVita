@@ -19,25 +19,48 @@ function MealPlanner() {
   }, []);
 
   const addMeal = () => {
+    if (isAdding) return; // Prevent multiple clicks
+    setIsAdding(true);
+    const newMeal = {
+      name: 'Chicken & Quinoa',
+      description: 'High-protein meal',
+      ingredients: ['chicken', 'quinoa'],
+      instructions: 'Cook and mix',
+      protein: 30,
+    };
     fetch('http://localhost:5002/api/meals', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: 'Chicken & Quinoa', description: 'High-protein meal', ingredients: ['chicken', 'quinoa'], instructions: 'Cook and mix', protein: 30 }),
+      body: JSON.stringify(newMeal),
     })
       .then(res => res.json())
-      .then(data => setMeals([...meals, data]))
-      .catch(err => console.error('Error adding meal:', err));
+      .then(data => {
+        if (!meals.some(meal => meal._id === data._id)) {
+          setMeals([...meals, data]);
+        }
+        setIsAdding(false);
+      })
+      .catch(err => {
+        console.error('Error adding meal:', err);
+        setIsAdding(false);
+      });
   };
+
+  if (error) return <div className="text-red-500">{error}</div>;
 
   return (
     <section id="meals" className="mb-8">
       <h2 className="text-2xl font-semibold mb-4">Meal Planner</h2>
-      <button onClick={addMeal} className="bg-blue-500 text-white px-4 py-2 rounded text-lg">
+      <button
+        onClick={addMeal}
+        disabled={isAdding}
+        className={`bg-blue-500 text-white px-4 py-2 rounded text-lg ${isAdding ? 'opacity-50 cursor-not-allowed' : ''}`}
+      >
         Add High-Protein Meal
       </button>
       <ul className="mt-4">
-        {meals.map((meal, index) => (
-          <li key={index} className="text-lg mb-4">
+        {meals.map((meal) => (
+          <li key={meal._id} className="text-lg mb-4">
             <strong>{meal.name}</strong> ({meal.protein}g protein)
             <p>{meal.description}</p>
             <p>Ingredients: {meal.ingredients.join(', ')}</p>
