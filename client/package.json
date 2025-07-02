@@ -1,0 +1,19 @@
+{
+  "name": "senvita-client",
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "vite"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.0.0",
+    "@tailwindcss/postcss": "^4.0.0-alpha.26",
+    "autoprefixer": "^10.0.0",
+    "postcss": "^8.0.0",
+    "vite": "^7.0.0"
+  }
+}
