@@ -2,13 +2,20 @@ import React, { useState, useEffect } from 'react';
 
 function MealPlanner() {
   const [meals, setMeals] = useState([]);
-  const [newMeal, setNewMeal] = useState({ name: '', description: '', ingredients: [], instructions: '', protein: 0 });
+  const [error, setError] = useState(null);
+  const [isAdding, setIsAdding] = useState(false);
 
   useEffect(() => {
     fetch('http://localhost:5002/api/meals')
       .then(res => res.json())
-      .then(data => setMeals(data))
-      .catch(err => console.error('Error fetching meals:', err));
+      .then(data => {
+        const uniqueMeals = Array.from(new Map(data.map(meal => [meal._id, meal])).values());
+        setMeals(uniqueMeals);
+      })
+      .catch(err => {
+        console.error('Error fetching meals:', err);
+        setError('Failed to load meals');
+      });
   }, []);
 
   const addMeal = () => {
