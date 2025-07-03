@@ -25,7 +25,7 @@ app.use('/api/meals', require('./routes/meals'));
 app.use('/api/workouts', require('./routes/workouts'));
 app.use('/api/supplements', require('./routes/supplements'));
 
-app.get('/', (req, res) => res.send('Senior Vitality API'));
+app.get('/', (req, res) => res.send('SenVita API'));
 
 const PORT = process.env.PORT || 5002;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
