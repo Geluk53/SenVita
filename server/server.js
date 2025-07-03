@@ -1,13 +1,22 @@
+require('dotenv').config({ path: './.env' });
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-require('dotenv').config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URI)
+const MONGO_URI = process.env.MONGO_URI;
+if (!MONGO_URI) {
+  console.error('Error: MONGO_URI is not defined in .env');
+  process.exit(1);
+}
+
+mongoose.connect(MONGO_URI, {
+  serverSelectionTimeoutMS: 30000,
+  socketTimeoutMS: 45000
+})
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
 

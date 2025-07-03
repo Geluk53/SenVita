@@ -2,8 +2,7 @@
   "name": "senvita",
   "version": "1.0.0",
   "scripts": {
-    "start-all": "concurrently \"cd server && node --no-deprecation server.js\" \"cd client && npm start\"",
-    "install-all": "cd client && npm install && cd server && npm install"
+    "start-all": "concurrently \"cd server && node --no-deprecation server.js\" \"cd client && npx vite --port 5174 --open\""
   },
   "devDependencies": {
     "concurrently": "^9.0.1"

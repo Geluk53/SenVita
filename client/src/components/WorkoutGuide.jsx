@@ -6,11 +6,17 @@ function WorkoutGuide() {
 
   useEffect(() => {
     fetch('http://localhost:5002/api/workouts')
-      .then(res => res.json())
-      .then(data => setWorkouts(data))
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        return res.json();
+      })
+      .then(data => {
+        const uniqueWorkouts = Array.from(new Map(data.map(workout => [workout._id, workout])).values());
+        setWorkouts(uniqueWorkouts);
+      })
       .catch(err => {
         console.error('Error fetching workouts:', err);
-        setError('Failed to load workouts');
+        setError('Failed to load workouts. Please try again later.');
       });
   }, []);
 
@@ -49,4 +55,3 @@ function WorkoutGuide() {
 }
 
 export default WorkoutGuide;
-
