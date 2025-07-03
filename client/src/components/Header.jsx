@@ -1,16 +1,19 @@
 import React from 'react';
+import Header from './components/Header';
+import MealPlanner from './components/MealPlanner';
+import WorkoutGuide from './components/WorkoutGuide';
+import SupplementTracker from './components/SupplementTracker';
 
-function Header() {
+function App() {
   return (
-    <header className="bg-blue-600 text-white p-4">
-      <h1 className="text-2xl font-bold">Senior Vitality</h1>
-      <nav>
-        <a href="#meals" className="mr-4">Meals</a>
-        <a href="#workouts" className="mr-4">Workouts</a>
-        <a href="#supplements" className="mr-4">Supplements</a>
-      </nav>
-    </header>
+    <div className="container mx-auto p-4">
+      <h1 className="text-3xl font-bold mb-8">Senior Vitality App</h1>
+      <Header />
+      <MealPlanner />
+      <WorkoutGuide />
+      <SupplementTracker />
+    </div>
   );
 }
 
-export default Header;
+export default App;
