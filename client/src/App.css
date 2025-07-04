@@ -1,5 +1,22 @@
 /* Tailwind CSS is imported via CDN in index.html */
 /* Add custom styles here if needed */
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  font-family: Arial, sans-serif;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+.nav-button {
+  font-weight: bold;
+  font-size: 1rem;
+  color: #008000;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.nav-button:hover {
+  color: #16a34a; /* Lighter green for hover */
 }

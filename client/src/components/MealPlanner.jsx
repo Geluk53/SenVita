@@ -26,7 +26,6 @@ function MealPlanner() {
     setIsAdding(true);
 
     try {
-      // Check if meal already exists in MongoDB
       const response = await fetch('http://localhost:5002/api/meals');
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       const existingMeals = await response.json();
@@ -76,39 +75,45 @@ function MealPlanner() {
 
   return (
     <section id="meals" className="mb-8">
-      <h2 className="text-2xl font-semibold mb-4">Meal Planner</h2>
-      {error && (
-        <div className="text-red-500 mb-4">
-          {error}
+      <div className="blank-line">
+        <h2 className="text-2xl font-semibold green-text mb-4">Meal Planner</h2>
+      </div>
+      <div className="blank-line">
+        {error && (
+          <div className="text-red-500 mb-4 flex items-center">
+            {error}
+            <button
+              onClick={clearError}
+              className="nav-button ml-4"
+            >
+              Clear
+            </button>
+          </div>
+        )}
+        <div className="flex space-x-12 mb-4">
           <button
-            onClick={clearError}
-            className="ml-4 bg-gray-300 text-black px-2 py-1 rounded"
+            onClick={addMeal}
+            disabled={isAdding}
+            className={`nav-button ${isAdding ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
-            Clear
+            Add High-Protein Meal
           </button>
         </div>
-      )}
-      <button
-        onClick={addMeal}
-        disabled={isAdding}
-        className="bg-blue-500 text-white px-4 py-2 rounded mb-4"
-      >
-        Add High-Protein Meal
-      </button>
-      {meals.length === 0 ? (
-        <p>No meals available</p>
-      ) : (
-        <ul className="mt-4">
-          {meals.map((meal) => (
-            <li key={meal._id} className="text-lg mb-4">
-              <strong>{meal.name}</strong> ({meal.protein}g protein)
-              <p>{meal.description}</p>
-              <p>Ingredients: {meal.ingredients.join(', ')}</p>
-              <p>Instructions: {meal.instructions}</p>
-            </li>
-          ))}
-        </ul>
-      )}
+        {meals.length === 0 ? (
+          <p className="white-text">No meals available</p>
+        ) : (
+          <ul className="mt-4">
+            {meals.map((meal) => (
+              <li key={meal._id} className="text-lg mb-4">
+                <strong className="green-text">{meal.name}</strong> <span className="white-text">({meal.protein}g protein)</span>
+                <p className="white-text">{meal.description}</p>
+                <p className="white-text">Ingredients: {meal.ingredients.join(', ')}</p>
+                <p className="white-text">Instructions: {meal.instructions}</p>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </section>
   );
 }
